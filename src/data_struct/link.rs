@@ -1,5 +1,6 @@
 use std::{
-    fmt::{self, Debug}, mem, ptr
+    fmt::{self, Debug},
+    ptr,
 };
 
 pub struct Node<T> {
@@ -38,12 +39,9 @@ impl<T> LinkedList<T> {
     }
     //在链表尾部添加数据
     pub fn push_tail(&mut self, data: T) {
-        let new_node = Box::new(Node {
-            data,
-            next: None,
-        });
+        let new_node = Box::new(Node { data, next: None });
         let mut tail = &mut self.head;
-    
+
         loop {
             match tail {
                 Some(node) => {
@@ -60,23 +58,20 @@ impl<T> LinkedList<T> {
     /* 利用ref关键字来实现链表尾部添加数据
      */
     pub fn push_back(&mut self, data: T) {
-        let new_node = Box::new(Node {
-            data,
-            next: None,
-        });
-    
+        let new_node = Box::new(Node { data, next: None });
+
         if let Some(ref mut head) = self.head {
             let mut current = head;
-    
+
             while let Some(ref mut next) = current.next {
                 current = next;
             }
-    
+
             current.next = Some(new_node);
         } else {
             self.head = Some(new_node);
         }
-    
+
         self.len += 1;
     }
 
@@ -88,8 +83,6 @@ impl<T> LinkedList<T> {
             node.data
         })
     }
-
-    
 }
 
 impl<T: Debug> Debug for LinkedList<T> {
@@ -103,5 +96,10 @@ impl<T: Debug> Debug for LinkedList<T> {
         }
 
         write!(f, "{:?}", list)
+    }
+}
+impl<T> Default for LinkedList<T> {
+    fn default() -> Self {
+        Self::new()
     }
 }
